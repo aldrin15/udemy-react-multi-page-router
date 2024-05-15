@@ -4,7 +4,7 @@ import classes from './EventList.module.css'
 
 import { Events } from '../../interfaces/Event'
 
-const EventList = ({ events }: Events) => {
+const EventList: React.FC<Events> = ({ events }) => {
     return (
         <div className={classes.events}>
             <h1>All Events</h1>

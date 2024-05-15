@@ -12,4 +12,10 @@ export interface Event {
 
 export interface Events {
     events: [EventItems]
+    event?: []
+}
+
+export interface EventsForm {
+    method?: 'get' | 'post' | 'put' | 'patch' | 'delete'
+    event?: EventItems
 }

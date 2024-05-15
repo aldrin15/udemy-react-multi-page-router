@@ -23,7 +23,7 @@ const ErrorPage = () => {
     return (
         <>
             <MainNavigation />
-            <PageContent title="An Error Occured!">
+            <PageContent title={title}>
                 <p>{message}</p>
             </PageContent>
         </>

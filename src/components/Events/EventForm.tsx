@@ -8,10 +8,10 @@ import {
 } from 'react-router-dom'
 
 import classes from './EventForm.module.css'
-import { Props } from '../../interfaces/Props'
 import { Errors } from '../../interfaces/Errors'
+import { EventsForm } from '../../interfaces/Event'
 
-const EventForm = ({ method, event }: Props) => {
+const EventForm: React.FC<EventsForm> = ({ method, event }) => {
     const data = useActionData() as Errors
     const navigate = useNavigate()
     const navigation = useNavigation()

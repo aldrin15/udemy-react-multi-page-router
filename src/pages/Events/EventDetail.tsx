@@ -1,14 +1,33 @@
-import { useRouteLoaderData, json, defer, redirect } from 'react-router'
+import { useRouteLoaderData, json, defer, redirect, Await } from 'react-router'
 
-import { Event } from '../../interfaces/Event'
+import { Events } from '../../interfaces/Event'
 import EventItem from '../../components/Events/EventItem'
+import { Suspense } from 'react'
+import EventList from '../../components/Events/EventList'
 
 const url: string = 'http://localhost:8080'
 
 const EventDetailPage = () => {
-    const data = useRouteLoaderData('event-detail') as Event
+    const { event, events } = useRouteLoaderData('event-detail') as Events
 
-    return <EventItem event={data.event} />
+    return (
+        <>
+            <Suspense
+                fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}
+            >
+                <Await resolve={event}>
+                    {(loadedEvent) => <EventItem event={loadedEvent} />}
+                </Await>
+            </Suspense>
+            <Suspense
+                fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}
+            >
+                <Await resolve={events}>
+                    {(loadedEvents) => <EventList events={loadedEvents} />}
+                </Await>
+            </Suspense>
+        </>
+    )
 }
 
 const loadEvent = async (id: number) => {
@@ -45,7 +64,7 @@ const loadEvents = async () => {
     }
 }
 
-const loader = async ({ request, params }: any) => {
+const loader = async ({ params }: any) => {
     const id = params.eventId
 
     return defer({

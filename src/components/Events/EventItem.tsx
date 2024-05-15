@@ -3,7 +3,7 @@ import { Link, useSubmit } from 'react-router-dom'
 import classes from './EventItem.module.css'
 import { Event } from '../../interfaces/Event'
 
-const EventItem = ({ event }: Event) => {
+const EventItem: React.FC<Event> = ({ event }) => {
     const submit = useSubmit()
 
     const startDeleteHandler = () => {
