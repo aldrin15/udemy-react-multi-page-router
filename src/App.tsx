@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom'
 import RootLayout from './pages/Root'
 import HomePage from './pages/Home/Home'
 import EventsRootLayout from './pages/Events/EventsRoot'
@@ -13,11 +13,20 @@ import NewsletterPage, {
 } from './pages/Newsletter/Newsletter'
 import EventNewPage from './pages/Events/EventNew'
 import EventEditPage from './pages/Events/EventEdit'
+import AuthenticationPage, {
+    action as authAction,
+} from './pages/Authentication/Authentication'
+import { checkAuthLoader, tokenLoader } from './util/authentication'
+import Logout, { action as logoutAction } from './pages/Authentication/Logout'
+import ErrorPage from './pages/Error/Error'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <RootLayout />,
+        errorElement: <ErrorPage />,
+        id: 'root',
+        loader: tokenLoader,
         children: [
             { index: true, element: <HomePage /> },
             {
@@ -43,6 +52,7 @@ const router = createBrowserRouter([
                                 path: 'edit',
                                 element: <EventEditPage />,
                                 action: manipulateEventAction,
+                                loader: checkAuthLoader,
                             },
                         ],
                     },
@@ -50,6 +60,7 @@ const router = createBrowserRouter([
                         path: 'new',
                         element: <EventNewPage />,
                         action: manipulateEventAction,
+                        loader: checkAuthLoader,
                     },
                 ],
             },
@@ -57,6 +68,21 @@ const router = createBrowserRouter([
                 path: 'newsletter',
                 element: <NewsletterPage />,
                 action: newsletterAction,
+            },
+            {
+                path: 'auth',
+                element: <AuthenticationPage />,
+                action: authAction,
+            },
+            {
+                path: 'logout',
+                element: <></>,
+                action: () => {
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('expiration')
+
+                    return redirect('/')
+                },
             },
         ],
     },

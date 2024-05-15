@@ -1,6 +1,7 @@
 const express = require('express')
 
 const { getAll, get, add, replace, remove } = require('../data/event')
+const { checkAuth } = require('../util/auth')
 const {
     isValidText,
     isValidDate,
@@ -27,6 +28,8 @@ router.get('/:id', async (req, res, next) => {
         next(error)
     }
 })
+
+router.use(checkAuth)
 
 router.post('/', async (req, res, next) => {
     const data = req.body

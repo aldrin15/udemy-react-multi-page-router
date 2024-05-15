@@ -5,7 +5,7 @@ import MainNavigation from '../../components/Navigation/MainNavigation'
 
 import { Errors } from '../../interfaces/Errors'
 
-const Error = () => {
+const ErrorPage = () => {
     const error = useRouteError() as Errors
 
     let title: string = 'An error occured!'
@@ -30,4 +30,4 @@ const Error = () => {
     )
 }
 
-export default Error
+export default ErrorPage
